@@ -164,23 +164,19 @@ engine beeing completely different and also much faster."
 (defun helm-occur-transformer (candidates source)
   "Returns CANDIDATES prefixed with line number."
   (cl-loop with buf = (helm-attr 'buffer-name source)
-           for c in candidates collect
-           (when (string-match helm-occur--search-buffer-regexp c)
-             (let ((linum (match-string 1 c))
-                   (disp (match-string 2 c)))
-               (cons (format "%s:%s"
-                             (propertize
-                              linum 'face 'helm-grep-lineno
-                              'help-echo (buffer-file-name
-                                          (get-buffer buf)))
-                             disp)
-                     (string-to-number linum))))))
+           for c in candidates
+           collect (cons (propertize c 'help-echo (buffer-file-name
+                                                   (get-buffer buf)))
+                         (get-text-property 0 'line-beginning c))))
 
 (defclass helm-moccur-class (helm-source-in-buffer)
   ((buffer-name :initarg :buffer-name
                 :initform nil)
    (moccur-buffers :initarg :moccur-buffers
                    :initform nil)))
+
+(defun helm-occur-get-line (beg end)
+  (propertize (buffer-substring beg end) 'line-beginning beg))
 
 (defun helm-occur-build-sources (buffers &optional source-name)
   "Build sources for helm-occur for each buffer in BUFFERS list."
@@ -191,36 +187,17 @@ engine beeing completely different and also much faster."
                                          (buffer-name buf)))
                'helm-moccur-class
              :buffer-name (buffer-name buf)
-             :match-part
-             (lambda (candidate)
-               ;; The regexp should match what is in candidate buffer,
-               ;; not what is displayed in helm-buffer e.g. "12 foo"
-               ;; and not "12:foo".
-               (when (string-match helm-occur--search-buffer-regexp
-                                   candidate)
-                 (match-string 2 candidate)))
-             :search (lambda (pattern)
-                       (when (string-match "\\`\\^\\([^ ]*\\)" pattern)
-                         (setq pattern (concat "^[0-9]* \\{1\\}" (match-string 1 pattern))))
-                       (condition-case _err
-                           (re-search-forward pattern nil t)
-                         (invalid-regexp nil)))
              :init `(lambda ()
                       (with-current-buffer ,buf
-                        (let ((contents (buffer-substring-no-properties
-                                         (point-min) (point-max))))
+                        (let ((contents (buffer-string)))
                           (with-current-buffer (helm-candidate-buffer 'local)
-                            (insert contents)
-                            (goto-char (point-min))
-                            (let ((linum 1))
-                              (insert (format "%s " linum))
-                              (while (re-search-forward "\n" nil t)
-                                (cl-incf linum)
-                                (insert (format "%s " linum))))))))
+                            (insert contents)))))
              :filtered-candidate-transformer 'helm-occur-transformer
+             :get-line 'helm-occur-get-line
              :help-message 'helm-moccur-help-message
              :nomark t
              :migemo t
+             :allow-dups t
              :history 'helm-occur-history
              :candidate-number-limit helm-occur-candidate-number-limit
              :action 'helm-occur-actions
@@ -255,8 +232,7 @@ Each buffer's result is displayed in a separated source."
 
 ;;; Actions
 ;;
-(cl-defun helm-occur-action (lineno
-                                  &optional (method (quote buffer)))
+(cl-defun helm-occur-action (pos &optional (method (quote buffer)))
   "Jump to line number LINENO with METHOD.
 arg METHOD can be one of buffer, buffer-other-window, buffer-other-frame."
   (require 'helm-grep)
@@ -269,7 +245,9 @@ arg METHOD can be one of buffer, buffer-other-window, buffer-other-frame."
       (buffer-other-window (helm-window-show-buffers (list buf) t))
       (buffer-other-frame  (switch-to-buffer-other-frame buf)))
     (with-current-buffer buf
-      (helm-goto-line lineno)
+      (helm-match-line-cleanup)
+      (helm-goto-char pos)
+      (helm-highlight-current-line)
       ;; Move point to the nearest matching regexp from bol.
       (cl-loop for reg in split-pat
                when (save-excursion
