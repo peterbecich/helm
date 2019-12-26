@@ -11,6 +11,7 @@ jobs:
     - stage: build
       env:
         - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm.el
       script: &build
         - rm -rf $HOME/.evm
         - travis_retry eval $"git clone https://github.com/rejeep/evm.git $HOME/.evm ; sleep 10"
@@ -20,16 +21,216 @@ jobs:
         - emacs --version
         - travis_retry eval $"curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python ; sleep 10"
         - travis_retry eval $"cask install ; sleep 10"
-        - cask build
+        - cask build $PACKAGE
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-adaptive.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-bookmark.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-buffers.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-color.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-comint.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-command.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-config.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-core-pkg.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-dabbrev.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-24.5-travis
+        - PACKAGE=helm-easymenu.el
     - stage: build
       env:
         - EVM_EMACS=emacs-25.3-travis
-      script: *build
+        - PACKAGE=helm-adaptive.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-elisp.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-elisp-package.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-eshell.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-eval.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-external.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-files.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-find.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-font.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-for-files.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-grep.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-help.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-id-utils.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-imenu.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-25.3-travis
+        - PACKAGE=helm-info.el
     - stage: build
       env:
         - EVM_EMACS=emacs-26.3-travis-linux-xenial
-      script: *build
+        - PACKAGE=helm-adaptive.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-bookmark.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-buffers.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-color.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-comint.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-command.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-config.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-core-pkg.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-dabbrev.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-26.3-travis-linux-xenial
+        - PACKAGE=helm-easymenu.el
     - stage: build
       env:
         - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
-      script: *build
+        - PACKAGE=helm-adaptive.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-elisp.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-elisp-package.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-eshell.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-eval.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-external.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-files.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-find.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-font.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-for-files.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-grep.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-help.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-id-utils.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-imenu.el
+    - stage: build
+      env:
+        - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+        - PACKAGE=helm-info.el
+    # - stage: build
+    #   env:
+    #     - EVM_EMACS=emacs-25.3-travis
+    #   script: *build
+    # - stage: build
+    #   env:
+    #     - EVM_EMACS=emacs-26.3-travis-linux-xenial
+    #   script: *build
+    # - stage: build
+    #   env:
+    #     - EVM_EMACS=emacs-git-snapshot-travis-linux-xenial
+    #   script: *build
