@@ -22,6 +22,15 @@ jobs:
     - os: linux
       dist: bionic
       env: EMACS_CI=emacs-snapshot
+    - os: linux
+      dist: bionic
+      arch: arm64
+      env: EMACS_CI=emacs-27-1
+    - os: linux
+      dist: bionic
+      arch: arm64
+      env: EMACS_CI=emacs-snapshot
+
 
 before_install:
   - sudo mkdir -p /etc/nix
